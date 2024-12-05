@@ -11,23 +11,16 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/roundtrip", async (req, res) => {
+app.get("/picofday", async (req, res) => {
   try {
     // Replace with your third-party API endpoint
 
     const key = process.env.API_KEY;
 
-    const apiUrl = `https://serpapi.com/search.json?engine=google_flights&departure_id=PEK&arrival_id=AUS&outbound_date=2024-12-01&return_date=2024-12-07&currency=USD&hl=en&api_key=${key}`;
+    const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${key}`;
 
     // Make a request to the third-party API
-
-    console.log();
-
-    const response = await axios.get(apiUrl, {
-      // headers: {
-      //   Authorization: `Bearer ${process.env.API_KEY}`,
-      // },
-    });
+    const response = await axios.get(apiUrl);
 
     // Forward the response data to the client
     res.json(response.data);
