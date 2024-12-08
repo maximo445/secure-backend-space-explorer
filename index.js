@@ -30,6 +30,29 @@ app.get("/picofday", async (req, res) => {
   }
 });
 
+app.get("/mars-photos", async (req, res) => {
+  try {
+    // Replace with your third-party API endpoint
+
+    const { camera, rover, earth_date } = req.query;
+
+    console.log({ camera, rover, earth_date });
+
+    const key = process.env.API_KEY;
+
+    const apiUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${earth_date}&camera=${camera}&api_key=${key}`;
+
+    // Make a request to the third-party API
+    const response = await axios.get(apiUrl);
+
+    // Forward the response data to the client
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http:localhost:${PORT}`);
 });
